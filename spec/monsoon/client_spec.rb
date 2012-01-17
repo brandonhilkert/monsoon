@@ -73,7 +73,7 @@ module Monsoon
       before(:each) do
         Backup.any_instance.stub(:run).and_return(backup)
         Compress.any_instance.stub(:run).and_return(compress)
-        Store.any_instance.stub(:run).and_return(store)
+        Store.any_instance.stub(:save).and_return(store)
       end
 
       it "should run the backup process" do
@@ -87,7 +87,7 @@ module Monsoon
       end
 
       it "should run the store process" do
-        Store.any_instance.should_receive(:run)
+        Store.any_instance.should_receive(:save)
         client.run
       end
     end

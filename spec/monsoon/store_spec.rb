@@ -21,23 +21,28 @@ module Monsoon
       it "should set the @bucket instance variable" do
         store.instance_variable_get(:@bucket).should == "backups"
       end
+
     end
 
-    describe "#run" do
+    describe "#save" do
       before(:each) do
-        store.stub(:fog).and_return(Fog::Storage::AWS::Real)
-        Fog::Storage::AWS::Real.stub(:put_object).and_return(true)
+        AWS::S3::S3Object.stub(:store).and_return(AWS::S3::S3Object)
         store.stub(:read_file_contents).and_return("test")
       end
 
-      it "should execute put_objejct method on fog object" do
-        Fog::Storage::AWS::Real.should_receive(:put_object).with("backups", "app_development.tar.gz", "test")
-        store.run
+      it "should connect to AWS" do
+        store.should_receive(:connect)
+        store.save
+      end
+
+      it "should execute store method on fog S3Object" do
+        AWS::S3::S3Object.should_receive(:store).with("app_development.tar.gz", "test", "backups")
+        store.save
       end
 
       it "should call the read_file_contents method" do
         store.should_receive(:read_file_contents)
-        store.run
+        store.save
       end
     end
 
@@ -58,22 +63,12 @@ module Monsoon
       end
     end
 
-    describe "#fog" do
-      subject{ store.fog }
-      it "should return a FOG storage object with credentials" do
-        subject.should be_instance_of(Fog::Storage::AWS::Real)
-      end
+    describe "#connect" do
+      subject{ store.connection }
 
-      it "should return object with provider = 'AWS'" do
-        subject.instance_variable_get(:@provider) == "AWS"
-      end
-
-      it "should return object with passed in key" do
-        subject.instance_variable_get(:@aws_access_key_id) == "key"
-      end
-
-      it "should return object with passed in secret" do
-        subject.instance_variable_get(:@aws_secret_access_key) == "secret"
+      it "should connect to AWS" do
+        AWS::S3::Base.should_receive(:establish_connection!).with(:access_key_id => "key", :secret_access_key => "secret")
+        store.connect
       end
     end
 

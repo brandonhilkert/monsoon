@@ -17,9 +17,7 @@ module Monsoon
       c = compress(b).run
       
       # Sent to AWS
-      store(c.filename).run
-
-
+      store(c.filename).save
     end
 
     def backup

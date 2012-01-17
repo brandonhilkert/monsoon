@@ -1,7 +1,7 @@
 begin
-  require "fog"
+  require "aws/s3"
 rescue LoadError
-  raise "You don't have the 'fog' gem installed."
+  raise "You don't have the 'aws' gem installed."
 end
 
 module Monsoon
@@ -10,8 +10,9 @@ module Monsoon
       @filename, @bucket, @key, @secret  = filename, bucket, key, secret
     end
 
-    def run
-      fog.put_object(@bucket, @filename, read_file_contents)
+    def save
+      connect
+      AWS::S3::S3Object.store(@filename, read_file_contents, @bucket)
     end
 
     def read_file_contents
@@ -19,11 +20,10 @@ module Monsoon
       file.read
     end
 
-    def fog
-      Fog::Storage.new(
-        :provider               => 'AWS', 
-        :aws_access_key_id      => @key, 
-        :aws_secret_access_key  => @secret
+    def connect
+      AWS::S3::Base.establish_connection!(
+        :access_key_id     => @key, 
+        :secret_access_key => @secret
       )
     end
   end
