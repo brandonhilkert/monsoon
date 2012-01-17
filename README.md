@@ -23,8 +23,7 @@ To Configure:
 
 To use:
 
-    client = Monsoon::Client.new
-    client.run
+    Monsoon.perform
 
 
 Requirements
