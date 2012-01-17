@@ -11,7 +11,7 @@ module Monsoon
     end
 
     def run
-      fog.put_object(@bucket, @compress.filename, read_file)
+      fog.put_object(@bucket, @compress.filename, read_file_contents)
     end
 
     def read_file_contents

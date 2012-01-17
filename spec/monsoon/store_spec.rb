@@ -28,11 +28,17 @@ module Monsoon
     describe "#run" do
       before(:each) do
         store.stub(:fog).and_return(Fog::Storage::AWS::Real)
-        store.stub(:read_file).and_return("test")
+        Fog::Storage::AWS::Real.stub(:put_object).and_return(true)
+        store.stub(:read_file_contents).and_return("test")
       end
 
       it "should execute put_objejct method on fog object" do
         Fog::Storage::AWS::Real.should_receive(:put_object).with("backups", "app_development.tar.gz", "test")
+        store.run
+      end
+
+      it "should call the read_file_contents method" do
+        store.should_receive(:read_file_contents)
         store.run
       end
     end
