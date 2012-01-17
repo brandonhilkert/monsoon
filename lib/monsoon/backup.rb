@@ -1,15 +1,18 @@
-# encoding: UTF-8
 require 'uri'
 
 module Monsoon
   class Backup
 
-    def initialize(uri)
+    attr_reader :backup_directory
+
+    def initialize(uri, backup_directory = "tmp")
       @uri = uri
+      @backup_directory = backup_directory
     end
 
     def run
-      Kernel.system "#{mongo_backup}" 
+      Kernel.system "#{mongo_dump_command}"
+      self
     end       
 
     def config
@@ -30,11 +33,11 @@ module Monsoon
       config["database"]
     end
 
-    def mongo_backup
-      command = ""
-      command = "mongodump -h #{config['host']}:#{config['port']} -d #{config['database']} -o tmp "
-      command += "--username #{config['username']} --password #{config['password']}" unless config["username"].nil? and config["password"].nil?
-      command
+    def mongo_dump_command
+      cmd = ""
+      cmd = "mongodump -h #{config['host']}:#{config['port']} -d #{config['database']} -o tmp "
+      cmd += "--username #{config['username']} --password #{config['password']}" unless config["username"].nil? and config["password"].nil?
+      cmd
     end
   end
 end

@@ -6,8 +6,25 @@ end
 
 module Monsoon
   class Store
-    def initialize(args)
-      
+    def initialize(compress, bucket, key, secret)
+      @compress, @bucket, @key, @secret  = compress, bucket, key, secret
+    end
+
+    def run
+      fog.put_object(@bucket, @compress.filename, read_file)
+    end
+
+    def read_file_contents
+      file = File.open(@compress.filename, "rb")
+      file.read
+    end
+
+    def fog
+      Fog::Storage.new(
+        :provider               => 'AWS', 
+        :aws_access_key_id      => @key, 
+        :aws_secret_access_key  => @secret
+      )
     end
   end
 end

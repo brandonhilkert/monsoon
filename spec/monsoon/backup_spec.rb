@@ -4,12 +4,34 @@ module Monsoon
 
   describe Backup do
     let(:uri) { "mongodb://testuser:pass1@test.mongohq.com:10036/app_development" }
+    let(:directory) { "tmp" }
+
+    describe "initalization" do
+      let(:backup) { Backup.new(uri) }
+
+      it "should set the @uri instance variable" do
+        backup.instance_variable_get(:@uri).should == uri
+      end
+
+      it "should set the @directory instance variable to default directory if none is provided" do
+        backup.instance_variable_get(:@backup_directory).should == "tmp"
+      end
+      
+      it "should set the @directory instance variable to specified directory" do
+        backup = Backup.new(uri, "tmp/data")
+        backup.instance_variable_get(:@backup_directory).should == "tmp/data"
+      end
+
+      it "should be able to read backup_directory instance variable" do
+        backup.backup_directory.should == "tmp"
+      end
+    end
 
     describe "#run" do
       let(:backup) { Backup.new(uri) }
 
       before(:each) do
-        backup.stub(:mongo_backup).and_return("mongodump -h test -p 10000")
+        backup.stub(:mongo_dump_command).and_return("mongodump -h test -p 10000")
         Kernel.stub(:system).and_return(nil)
       end
 
@@ -19,8 +41,12 @@ module Monsoon
       end
 
       it "should call mongo_dump method" do
-        backup.should_receive(:mongo_backup)
+        backup.should_receive(:mongo_dump_command)
         backup.run
+      end
+
+      it "should return backup instance" do
+        backup.run.should == backup
       end
     end
 
@@ -65,8 +91,8 @@ module Monsoon
       end
     end
 
-    describe "#mongo_backup" do
-      subject{ Backup.new(uri).mongo_backup }
+    describe "#mongo_dump_command" do
+      subject{ Backup.new(uri).mongo_dump_command }
 
       it "should include mongo dump command" do
         subject.should include("mongodump")
@@ -93,7 +119,7 @@ module Monsoon
       end
 
       describe "when user and password is not included" do
-        let(:backup) { Backup.new("mongodb://test.mongohq.com:10036/app_development").mongo_backup }
+        let(:backup) { Backup.new("mongodb://test.mongohq.com:10036/app_development").mongo_dump_command }
 
         it "should not include username switch" do
           backup.should_not include("--username")
