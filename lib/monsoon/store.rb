@@ -6,16 +6,16 @@ end
 
 module Monsoon
   class Store
-    def initialize(compress, bucket, key, secret)
-      @compress, @bucket, @key, @secret  = compress, bucket, key, secret
+    def initialize(filename, bucket, key, secret)
+      @filename, @bucket, @key, @secret  = filename, bucket, key, secret
     end
 
     def run
-      fog.put_object(@bucket, @compress.filename, read_file_contents)
+      fog.put_object(@bucket, @filename, read_file_contents)
     end
 
     def read_file_contents
-      file = File.open(@compress.filename, "rb")
+      file = File.open(@filename, "rb")
       file.read
     end
 

@@ -15,7 +15,7 @@ module Monsoon
     end
 
     def filename
-      @filename ||= "#{@backup.database}.#{Time.now.utc.to_i.to_s}.tar.gz"
+      @filename ||= "#{@backup.database}_#{Time.now.utc.to_i.to_s}.tar.gz"
     end
 
   end

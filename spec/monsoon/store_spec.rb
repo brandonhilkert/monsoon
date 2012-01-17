@@ -3,14 +3,12 @@ require 'spec_helper'
 module Monsoon
 
   describe Store do
-    let(:compress) { double("compress", filename: "app_development.tar.gz") }
-    let(:store) { Store.new(compress, "backups", "key", "secret") }
+    let(:store) { Store.new("app_development.tar.gz", "backups", "key", "secret") }
 
     describe "initalization" do
-      it "should set the @compress instance variable" do
-        store.instance_variable_get(:@compress).should == compress
+      it "should set the @filename instance variable" do
+        store.instance_variable_get(:@filename).should == "app_development.tar.gz"
       end
-
 
       it "should set the @key instance variable" do
         store.instance_variable_get(:@key).should == "key"

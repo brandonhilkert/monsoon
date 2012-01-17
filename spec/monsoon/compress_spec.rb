@@ -47,7 +47,7 @@ module Monsoon
     describe "#filename" do
       it "should return the correct filename with timestamp" do
         Time.stub_chain(:now, :utc, :to_i, :to_s).and_return("1234")
-      compress.filename.should == "app_development.1234.tar.gz"
+        compress.filename.should == "app_development_1234.tar.gz"
       end
 
       it "should return original filename if subsequently requseted" do
