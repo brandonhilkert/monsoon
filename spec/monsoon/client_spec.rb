@@ -30,6 +30,39 @@ module Monsoon
       it "should set the @mongo_uri instance variable" do
         client.instance_variable_get(:@mongo_uri).should == mongo_uri
       end
+
+      describe "config variables" do
+        it "should set instance variable bucket" do
+          Monsoon.bucket = "bucket"
+          c = Monsoon::Client.new
+          c.instance_variable_get(:@bucket).should == "bucket"
+        end
+
+        it "should set instance variable key" do
+          Monsoon.key = "key"
+          c = Monsoon::Client.new
+          c.instance_variable_get(:@key).should == "key"
+        end
+
+        it "should set instance variable secret" do
+          Monsoon.secret = "secret"
+          c = Monsoon::Client.new
+          c.instance_variable_get(:@secret).should == "secret"
+        end
+
+        it "should set instance variable backup_directory" do
+          Monsoon.backup_directory = "tmp/data"
+          c = Monsoon::Client.new
+          c.instance_variable_get(:@backup_directory).should == "tmp/data"
+        end
+
+        it "should set instance variable mongo_uri" do
+          Monsoon.mongo_uri = "mongo://localhost"
+          c = Monsoon::Client.new
+          c.instance_variable_get(:@mongo_uri).should == "mongo://localhost"
+        end
+      end
+
     end
 
     describe "#run" do

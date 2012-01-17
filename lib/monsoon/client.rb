@@ -1,7 +1,7 @@
 module Monsoon
   class Client
 
-    def initialize(bucket = Monson.bucket, key = Monsoon.key, secret = Monsoon.key, backup_directory = Monsoon.backup_directory, mongo_uri = Monsoon.mongo_uri)
+    def initialize(bucket = Monsoon.bucket, key = Monsoon.key, secret = Monsoon.secret, backup_directory = Monsoon.backup_directory, mongo_uri = Monsoon.mongo_uri)
       @bucket           = bucket
       @key              = key
       @secret           = secret
