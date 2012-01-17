@@ -49,6 +49,13 @@ module Monsoon
         Time.stub_chain(:now, :utc, :to_i, :to_s).and_return("1234")
       compress.filename.should == "app_development.1234.tar.gz"
       end
+
+      it "should return original filename if subsequently requseted" do
+        Time.stub_chain(:now, :utc, :to_i, :to_s).and_return("1234")
+        filename = compress.filename
+        Time.stub_chain(:now, :utc, :to_i, :to_s).and_return("0000")
+        compress.filename.should == filename
+      end
     end
 
   end

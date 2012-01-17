@@ -10,9 +10,16 @@ module Monsoon
     end
 
     def run
+      # Backup the MongoDB database to filesystem
       b = backup.run
+      
+      # Compress the contents of the backup
       c = compress(b).run
-      s = store(c).run
+      
+      # Sent to AWS
+      store(c).run
+
+      
     end
 
     def backup
