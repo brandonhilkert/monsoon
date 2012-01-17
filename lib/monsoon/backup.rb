@@ -9,7 +9,7 @@ module Monsoon
     end
 
     def run
-      Kernel.system "#{mongodump}" 
+      Kernel.system "#{mongo_backup}" 
     end       
 
     def config
@@ -26,8 +26,15 @@ module Monsoon
       }
     end    
 
+    def database
+      config["database"]
+    end
+
     def mongo_backup
-      "mongodump -h #{config['host']} -p #{config['port']} -u #{config['username']} -p #{config['password']} -d #{config['database']}"
+      command = ""
+      command = "mongodump -h #{config['host']}:#{config['port']} -d #{config['database']} -o tmp "
+      command += "--username #{config['username']} --password #{config['password']}" unless config["username"].nil? and config["password"].nil?
+      command
     end
   end
 end
