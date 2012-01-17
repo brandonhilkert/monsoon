@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Monsoon
   class Compress
 
@@ -16,6 +18,10 @@ module Monsoon
 
     def filename
       @filename ||= "#{@backup.database}_#{Time.now.utc.to_i.to_s}.tar.gz"
+    end
+
+    def clean
+      FileUtils.rm filename, force: true
     end
 
   end

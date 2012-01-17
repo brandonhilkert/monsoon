@@ -90,6 +90,11 @@ module Monsoon
         Store.any_instance.should_receive(:save)
         client.run
       end
+
+      it "should remove the compressed file" do
+        compress.should_receive(:clean)
+        client.run
+      end
     end
 
     describe "#backup" do

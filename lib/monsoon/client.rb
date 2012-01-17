@@ -18,6 +18,9 @@ module Monsoon
       
       # Sent to AWS
       store(c.filename).save
+
+      # Remove the compressed file from the filesystem
+      c.clean
     end
 
     def backup

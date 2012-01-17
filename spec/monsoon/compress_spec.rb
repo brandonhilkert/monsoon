@@ -58,6 +58,19 @@ module Monsoon
       end
     end
 
+    describe "#clean" do
+      let(:filename) { compress.filename }
+
+      it "should trigger the rm command" do
+        FileUtils.should_receive(:rm).with(filename, force: true)
+        compress.clean
+      end
+
+      it "should delete a file" do
+        File
+      end
+    end
+
   end
 
 end
