@@ -13,12 +13,21 @@ module Monsoon
     #   config.mongo_uri = 'mongodb://testuser:pass1@test.mongohq.com:10036/app_development'
     # end
     #
-    # elsewhere
-    #
-    # client = Monsoon::Client.new
     def configure
       yield self
       true
+    end
+
+    # Run the Monsoon process to backup, save, and clean the work.
+    #
+    # Examples
+    #
+    #   Monsoon.perform
+    #   # => True
+    #
+    # Returns True
+    def perform
+      Monsoon::Client.new.run
     end
   end
 

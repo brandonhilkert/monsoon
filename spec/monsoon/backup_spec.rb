@@ -118,6 +118,11 @@ module Monsoon
         subject.should include("-o tmp")
       end
 
+      it "should change output directory if intialized with it" do
+        Backup.new(uri, "tmp/data").mongo_dump_command.should include("-o tmp/data")
+
+      end
+
       describe "when user and password is not included" do
         let(:backup) { Backup.new("mongodb://test.mongohq.com:10036/app_development").mongo_dump_command }
 
