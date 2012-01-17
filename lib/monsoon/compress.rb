@@ -6,7 +6,8 @@ module Monsoon
     end
 
     def run
-      Kernel.system "#{compress_command}" 
+      Kernel.system "#{compress_command}"
+      self
     end
 
     def compress_command

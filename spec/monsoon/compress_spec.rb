@@ -27,6 +27,10 @@ module Monsoon
         compress.should_receive(:compress_command)
         compress.run
       end
+
+      it "should return compress instance" do
+        compress.run.should == compress
+      end
     end
 
     describe "#compress_command" do
