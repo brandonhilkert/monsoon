@@ -29,7 +29,7 @@ module Monsoon
     #
     # Returns the command as a String.
     def compress_command
-      "tar -czf #{filename} #{@backup.backup_location}"
+      "tar -czf #{filename} #{@backup.database}"
     end
 
     # Helper to form the tar compress command.

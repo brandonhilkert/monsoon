@@ -36,7 +36,7 @@ module Monsoon
     describe "#compress_command" do
       before(:each) do
         compress.stub(:filename).and_return("app_development.1234.tar.gz")
-        backup.stub(:backup_location).and_return("app_development")
+        backup.stub(:database).and_return("app_development")
       end
 
       it "should return correct tar command" do
