@@ -58,18 +58,6 @@ module Monsoon
       config["database"]
     end
 
-    # Helper method for database backup location.
-    #
-    # Examples
-    #
-    #   Monsoon::Backup("mongodb://test.mongohq.com:10036/app_development").backup_location
-    #   # => "dump/app_development"
-    #
-    # Returns a String of the database name.
-    def backup_location
-      "dump/#{config['database']}"
-    end
-
     # Helper to form the mongodump command.
     #
     # Examples
@@ -80,7 +68,7 @@ module Monsoon
     # Returns the command as a String.
     def mongo_dump_command
       cmd = ""
-      cmd = "mongodump -h #{config['host']}:#{config['port']} -d #{config['database']} "
+      cmd = "mongodump -h #{config['host']}:#{config['port']} -d #{config['database']} -o . "
       cmd += "--username #{config['username']} --password #{config['password']}" unless config["username"].nil? and config["password"].nil?
       cmd
     end

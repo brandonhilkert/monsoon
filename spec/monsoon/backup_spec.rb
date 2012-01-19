@@ -79,46 +79,20 @@ module Monsoon
       end
     end
 
-    describe "#backup_location" do
-      subject{ Backup.new(uri).backup_location }
-
-      it "should return correct backup location for mongodump output" do
-        subject.should == "dump/app_development"
-      end
-    end
-
     describe "#mongo_dump_command" do
       subject{ Backup.new(uri).mongo_dump_command }
 
-      it "should include mongo dump command" do
-        subject.should include("mongodump")
-      end
-
-      it "should include switch for host including port" do
-        subject.should include("-h test.mongohq.com:10036")
-      end
-
-      it "should include switch for database" do
-        subject.should include("-d app_development")
-      end
-
-      it "should include switch for username" do
-        subject.should include("--username testuser")
-      end
-
-      it "should include switch for password" do
-        subject.should include("--password pass1")
+      describe "when username/password is provided" do
+        it "should return correct command" do
+          subject.should == "mongodump -h test.mongohq.com:10036 -d app_development -o . --username testuser --password pass1"
+        end
       end
 
       describe "when user and password is not included" do
         let(:backup) { Backup.new("mongodb://test.mongohq.com:10036/app_development").mongo_dump_command }
 
-        it "should not include username switch" do
-          backup.should_not include("--username")
-        end
-
-        it "should not include password switch" do
-          backup.should_not include("--password")
+        it "should return correct command" do
+          backup.should == "mongodump -h test.mongohq.com:10036 -d app_development -o . "
         end
       end
 
