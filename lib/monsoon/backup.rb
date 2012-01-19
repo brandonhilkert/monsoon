@@ -3,11 +3,8 @@ require 'uri'
 module Monsoon
   class Backup
 
-    attr_reader :backup_directory
-
-    def initialize(uri, backup_directory = "tmp")
+    def initialize(uri)
       @uri = uri
-      @backup_directory = backup_directory
     end
 
     # Run the Monsoon Backup process.
@@ -66,12 +63,12 @@ module Monsoon
     # Examples
     #
     #   Monsoon::Backup("mongodb://test.mongohq.com:10036/app_development").mongo_dump_command
-    #   # => "mongodump -h test.mongohq.com:10036 -d app_development -o tmp"
+    #   # => "mongodump -h test.mongohq.com:10036 -d app_development"
     #
     # Returns the command as a String.
     def mongo_dump_command
       cmd = ""
-      cmd = "mongodump -h #{config['host']}:#{config['port']} -d #{config['database']} -o #{@backup_directory} "
+      cmd = "mongodump -h #{config['host']}:#{config['port']} -d #{config['database']} "
       cmd += "--username #{config['username']} --password #{config['password']}" unless config["username"].nil? and config["password"].nil?
       cmd
     end

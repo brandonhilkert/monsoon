@@ -1,11 +1,10 @@
 module Monsoon
   class Client
 
-    def initialize(bucket = Monsoon.bucket, key = Monsoon.key, secret = Monsoon.secret, backup_directory = Monsoon.backup_directory, mongo_uri = Monsoon.mongo_uri)
+    def initialize(bucket = Monsoon.bucket, key = Monsoon.key, secret = Monsoon.secret, mongo_uri = Monsoon.mongo_uri)
       @bucket           = bucket
       @key              = key
       @secret           = secret
-      @backup_directory = backup_directory
       @mongo_uri        = mongo_uri
     end
 
@@ -42,7 +41,7 @@ module Monsoon
     #
     # Returns an instance of the Monsoon::Client object
     def backup
-      Backup.new(@mongo_uri, @backup_directory)
+      Backup.new(@mongo_uri)
     end
 
     # Creates an instnace of the Monsoon::Compress class

@@ -3,7 +3,7 @@ require 'spec_helper'
 module Monsoon
 
   describe Compress do
-    let(:backup) { double("backup", backup_directory: "tmp", database: "app_development") }
+    let(:backup) { double("backup", database: "app_development") }
     let(:compress) { Compress.new(backup) }
 
     describe "initalization" do

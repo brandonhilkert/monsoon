@@ -6,9 +6,8 @@ module Monsoon
     let(:bucket) { "bucket" }
     let(:key) { "key" }
     let(:secret) { "secret" }
-    let(:backup_directory) { "tmp" }
     let(:mongo_uri) { "mongodb://testuser:pass1@test.mongohq.com:10036/app_development" }
-    let(:client) { Monsoon::Client.new(bucket, key, secret, backup_directory, mongo_uri) }
+    let(:client) { Monsoon::Client.new(bucket, key, secret, mongo_uri) }
 
     describe "initalization" do
       it "should set the @bucket instance variable" do
@@ -21,10 +20,6 @@ module Monsoon
 
       it "should set the @secret instance variable" do
         client.instance_variable_get(:@secret).should == secret
-      end
-
-      it "should set the @backup_directory instance variable" do
-        client.instance_variable_get(:@backup_directory).should == backup_directory 
       end
 
       it "should set the @mongo_uri instance variable" do
@@ -50,12 +45,6 @@ module Monsoon
           c.instance_variable_get(:@secret).should == "secret"
         end
 
-        it "should set instance variable backup_directory" do
-          Monsoon.backup_directory = "tmp/data"
-          c = Monsoon::Client.new
-          c.instance_variable_get(:@backup_directory).should == "tmp/data"
-        end
-
         it "should set instance variable mongo_uri" do
           Monsoon.mongo_uri = "mongo://localhost"
           c = Monsoon::Client.new
@@ -66,7 +55,7 @@ module Monsoon
     end
 
     describe "#run" do
-      let(:backup) { Backup.new(mongo_uri, backup_directory) }
+      let(:backup) { Backup.new(mongo_uri) }
       let(:compress) { Compress.new(backup) }
       let(:store) { Store.new(compress, bucket, key, secret) }
 
@@ -99,13 +88,13 @@ module Monsoon
 
     describe "#backup" do
       it "should initalize a new Backup object" do
-        Backup.should_receive(:new).with(mongo_uri, backup_directory)
+        Backup.should_receive(:new).with(mongo_uri)
         client.backup
       end
     end
 
     describe "#compress" do
-      let(:backup) { Backup.new(mongo_uri, backup_directory) }
+      let(:backup) { Backup.new(mongo_uri) }
 
       it "should initalize a new Compress object" do
         Compress.should_receive(:new).with(backup)
@@ -114,7 +103,7 @@ module Monsoon
     end
 
     describe "#store" do
-      let(:backup) { Backup.new(mongo_uri, backup_directory) }
+      let(:backup) { Backup.new(mongo_uri) }
       let(:compress) { Compress.new(backup) }
 
       it "should initalize a new Compress object" do

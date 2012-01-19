@@ -1,7 +1,7 @@
 module Monsoon
 
   class << self
-    attr_accessor :bucket, :key, :secret, :backup_directory, :mongo_uri
+    attr_accessor :bucket, :key, :secret, :mongo_uri
 
     # config/initializers/monsoon.rb (for instance)
     #
@@ -9,7 +9,6 @@ module Monsoon
     #   config.bucket = 'backups'
     #   config.key = 'consumer_key'
     #   config.secret = 'consumer_secret'
-    #   config.backup_directory = 'data'
     #   config.mongo_uri = 'mongodb://testuser:pass1@test.mongohq.com:10036/app_development'
     # end
     #

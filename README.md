@@ -17,7 +17,6 @@ To Configure:
       config.bucket = "mongo_backups"
       config.key = "my_super_secret_aws_key"
       config.secret = "my_super_secret_aws_secret"
-      config.backup_directory = "tmp"
       config.mongo_uri = "mongodb://user:password@test.mongohq.com:10036/add_development"
     end
 

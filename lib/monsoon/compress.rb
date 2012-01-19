@@ -25,11 +25,11 @@ module Monsoon
     # Examples
     #
     #   Monsoon::Compress(#<Monsoon::Backup>).compress_command
-    #   # => "tar -czf app_development_1234.tar.gz tmp"
+    #   # => "tar -czf app_development_1234.tar.gz app_development"
     #
     # Returns the command as a String.
     def compress_command
-      "tar -czf  #{filename} #{@backup.backup_directory}"
+      "tar -czf  #{filename} #{@backup.database}"
     end
 
     # Helper to form the tar compress command.

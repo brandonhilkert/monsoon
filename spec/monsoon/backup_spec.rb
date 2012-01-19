@@ -13,18 +13,6 @@ module Monsoon
         backup.instance_variable_get(:@uri).should == uri
       end
 
-      it "should set the @directory instance variable to default directory if none is provided" do
-        backup.instance_variable_get(:@backup_directory).should == "tmp"
-      end
-      
-      it "should set the @directory instance variable to specified directory" do
-        backup = Backup.new(uri, "tmp/data")
-        backup.instance_variable_get(:@backup_directory).should == "tmp/data"
-      end
-
-      it "should be able to read backup_directory instance variable" do
-        backup.backup_directory.should == "tmp"
-      end
     end
 
     describe "#run" do
@@ -112,15 +100,6 @@ module Monsoon
 
       it "should include switch for password" do
         subject.should include("--password pass1")
-      end
-
-      it "should include switch for output directory" do
-        subject.should include("-o tmp")
-      end
-
-      it "should change output directory if intialized with it" do
-        Backup.new(uri, "tmp/data").mongo_dump_command.should include("-o tmp/data")
-
       end
 
       describe "when user and password is not included" do
