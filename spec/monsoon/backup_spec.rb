@@ -79,6 +79,14 @@ module Monsoon
       end
     end
 
+    describe "#backup_location" do
+      subject{ Backup.new(uri).backup_location }
+
+      it "should return correct backup location for mongodump output" do
+        subject.should == "dump/app_development"
+      end
+    end
+
     describe "#mongo_dump_command" do
       subject{ Backup.new(uri).mongo_dump_command }
 

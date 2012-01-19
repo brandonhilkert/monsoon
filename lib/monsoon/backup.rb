@@ -58,6 +58,18 @@ module Monsoon
       config["database"]
     end
 
+    # Helper method for database backup location.
+    #
+    # Examples
+    #
+    #   Monsoon::Backup("mongodb://test.mongohq.com:10036/app_development").backup_location
+    #   # => "dump/app_development"
+    #
+    # Returns a String of the database name.
+    def backup_location
+      "dump/#{config['database']}"
+    end
+
     # Helper to form the mongodump command.
     #
     # Examples

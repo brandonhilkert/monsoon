@@ -34,13 +34,13 @@ module Monsoon
     end
 
     describe "#compress_command" do
-      it "should include the tar command" do
-        compress.compress_command.should include("tar -czf")
+      before(:each) do
+        compress.stub(:filename).and_return("app_development.1234.tar.gz")
+        backup.stub(:backup_location).and_return("dump/app_development")
       end
 
-      it "should include filename with timestamp and tar.gz extension" do
-        compress.stub(:filename).and_return("app_development.1234.tar.gz")
-        compress.compress_command.should include("app_development.1234.tar.gz")
+      it "should return correct tar command" do
+        compress.compress_command.should == "tar -czf app_development.1234.tar.gz dump/app_development"
       end
     end
 
