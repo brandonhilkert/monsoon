@@ -41,7 +41,7 @@ module Monsoon
     #
     # Returns the filename as a String.
     def filename
-      @filename ||= "#{@backup.database}_#{Time.now.utc.to_i.to_s}.tar.gz"
+      @filename ||= "#{@backup.database}_#{Time.now.strftime('%Y%m%d_%H%M%S')}.tar.gz"
     end
 
     # Helper to delete the backup file once finished.
