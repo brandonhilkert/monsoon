@@ -46,20 +46,14 @@ module Monsoon
       end
     end
 
-    describe "#read_file_contents" do
+    describe "#file_handle" do
       before(:each) do
-        File.stub(:open).with("app_development.tar.gz", "rb").and_return("test")
-        String.any_instance.stub(:read).and_return("test")
+        File.stub(:open).with("app_development.tar.gz", "rb").and_return(File)
       end
 
       it "should open the File" do
         File.should_receive(:open).with("app_development.tar.gz", "rb")
-        store.read_file_contents
-      end
-
-      it "should execute the read operation on the file object" do
-        String.any_instance.should_receive(:read)
-        store.read_file_contents
+        store.file_handle
       end
     end
 

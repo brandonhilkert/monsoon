@@ -24,17 +24,16 @@ module Monsoon
       AWS::S3::S3Object.store(@filename, read_file_contents, @bucket)
     end
 
-    # Parses the contents of the compressed backup.
+    # Creates File handler for backup file.
     #
     # Examples
     #
-    #   Monsoon::Store("backup.tar.gz", "backups_bucket", "super_secret_key", "super_secret_secret").read_file_contents
+    #   Monsoon::Store("backup.tar.gz", "backups_bucket", "super_secret_key", "super_secret_secret").file_handle
     #   # => #<AWS::S3::S3Object>
     #
-    # Returns contents of the binary file.
-    def read_file_contents
-      file = File.open(@filename, "rb")
-      file.read
+    # Returns File object of backup file.
+    def file_handle
+      File.open(@filename, "rb")
     end
 
     # Connects to AWS.
