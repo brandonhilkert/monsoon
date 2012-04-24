@@ -21,7 +21,7 @@ module Monsoon
     # Returns an instance of the AWS::S3::S3Object class
     def save
       connect
-      AWS::S3::S3Object.store(@filename, read_file_contents, @bucket)
+      AWS::S3::S3Object.store(@filename, file_handle, @bucket)
     end
 
     # Creates File handler for backup file.

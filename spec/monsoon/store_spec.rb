@@ -27,7 +27,7 @@ module Monsoon
     describe "#save" do
       before(:each) do
         AWS::S3::S3Object.stub(:store).and_return(AWS::S3::S3Object)
-        store.stub(:read_file_contents).and_return("test")
+        store.stub(:file_handle).and_return("test")
       end
 
       it "should connect to AWS" do
@@ -41,7 +41,7 @@ module Monsoon
       end
 
       it "should call the read_file_contents method" do
-        store.should_receive(:read_file_contents)
+        store.should_receive(:file_handle)
         store.save
       end
     end
